@@ -10,6 +10,24 @@
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 20% 0,#102342 0,#07111f 38%,#040a12 100%);color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}
 .wrap{max-width:1050px;margin:auto;padding:22px}h1{margin:0;font-size:32px}p{color:var(--muted);margin:7px 0 20px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.card{background:linear-gradient(180deg,#0d1d31,#091522);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 15px 40px rgba(0,0,0,.22)}.head{display:flex;gap:12px;align-items:flex-start}.icon{font-size:32px}.name{font-size:20px;font-weight:900}.resource{font-size:13px;color:var(--muted);margin-top:4px}.numbers{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:end;margin-top:20px}.label{font-size:11px;color:var(--muted);margin-bottom:5px}.value,.target{height:48px;border:1px solid #28557e;border-radius:12px;background:#06111d;color:var(--text);font-size:22px;font-weight:900;padding:8px 11px;width:100%}.target{display:flex;align-items:center;background:#10223a;color:#fff}.slash{font-size:28px;font-weight:900;color:#6d99c0;padding-bottom:8px}.bar{height:12px;background:#061321;border-radius:999px;overflow:hidden;margin-top:14px;border:1px solid #173650}.fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--green));width:0}.bottom{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-top:10px;font-size:13px}.left{font-weight:800}.pct{color:var(--muted)}.advice{border-top:1px solid var(--line);margin-top:15px;padding-top:13px;color:#cfe2f5;font-size:13px;line-height:1.5}.why{color:var(--yellow);font-weight:800}.done{color:var(--green)!important}.source{font-size:10px;color:#6687a6;margin-top:9px}
 @media(max-width:700px){.wrap{padding:14px}.grid{grid-template-columns:1fr}h1{font-size:27px}.card{padding:15px}}
+
+.arena-section{margin-top:24px}
+.arena-title{font-size:26px;font-weight:900;margin:0 0 6px}
+.arena-sub{color:var(--muted);margin-bottom:14px}
+.arena-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.arena-card{background:linear-gradient(180deg,#0d1d31,#091522);border:1px solid var(--line);border-radius:20px;padding:18px}
+.arena-card h3{margin:0 0 12px;font-size:19px}
+.rule{border:1px solid #193b59;background:#081726;border-radius:14px;padding:12px;margin-top:9px}
+.rule b{display:block;margin-bottom:5px}
+.rule span{color:#bfd3e7;font-size:13px;line-height:1.48}
+.counter{margin-top:14px}
+.counter-row{display:flex;align-items:center;gap:10px}
+.counter input{width:90px;height:42px;border:1px solid #28557e;border-radius:10px;background:#06111d;color:var(--text);font-weight:900;font-size:18px;padding:7px 10px}
+.counter .mini{height:9px;flex:1;background:#061321;border-radius:999px;overflow:hidden;border:1px solid #173650}
+.counter .mini i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--green));width:0}
+.example{color:#dfeeff!important}
+@media(max-width:700px){.arena-grid{grid-template-columns:1fr}.arena-title{font-size:23px}}
+
 </style>
 </head>
 <body>
@@ -17,6 +35,52 @@
 <h1>Что копить в Last War</h1>
 <p>Только события, подтверждённые твоим инвентарём. Текущие значения сохраняются автоматически.</p>
 <div class="grid" id="grid"></div>
+
+<section class="arena-section">
+  <div class="arena-title">Битва 3×3 — советы и примеры</div>
+  <div class="arena-sub">Для победы достаточно забрать 2 линии из 3. Сначала закрывай ежедневные награды, потом уже играй на рейтинг.</div>
+  <div class="arena-grid">
+    <div class="arena-card">
+      <h3>Как атаковать</h3>
+
+      <div class="rule"><b>1. Сначала 5 побед в день</b><span>Это базовая цель на ежедневные награды. После 5 побед дополнительные атаки трать только если реально двигаешь рейтинг.</span></div>
+
+      <div class="rule"><b>2. Играй на 2:1, а не на 3:0</b><span>Не пытайся выиграть все три линии. Найди две самые уязвимые пачки соперника и направь туда свои лучшие подходящие составы.</span></div>
+
+      <div class="rule"><b>3. Сильнейшую пачку не ставь автоматически против сильнейшей</b><span class="example">Пример: соперник 90M / 72M / 68M, ты 84M / 76M / 64M. Отдай 64M в 90M, а 84M и 76M поставь против 72M и 68M. Цель — надёжные 2:1.</span></div>
+
+      <div class="rule"><b>4. Используй то, что атакующий видит защиту</b><span>Перед боем оцени все три состава, героев и тип войск. При близкой Power хороший матчап может быть важнее самой цифры силы.</span></div>
+
+      <div class="rule"><b>5. Если третья пачка слабая — сделай её жертвой</b><span class="example">Пример: ты 88M / 84M / 45M, соперник 86M / 70M / 65M. 45M отдаём в 86M, 88M ставим в 70M, 84M — в 65M.</span></div>
+
+      <div class="rule"><b>6. После daily не бей заведомо плохие цели</b><span class="example">Пример: соперник 92M / 88M / 84M, ты 83M / 78M / 69M. Если 5 побед уже есть — лучше пропустить и дождаться более удобной цели/revenge.</span></div>
+    </div>
+
+    <div class="arena-card">
+      <h3>Защита и контроль дня</h3>
+
+      <div class="rule"><b>1. Не оставляй две бесплатные линии</b><span class="example">Плохо: 95M / 50M / 45M. Сопернику слишком легко выбрать две победы. Надёжнее что-то вроде 78M / 72M / 68M, если ростер позволяет.</span></div>
+
+      <div class="rule"><b>2. Атака и защита — разные задачи</b><span>В атаке выгодно концентрировать силу в двух победных линиях. В защите наоборот — нужно сделать так, чтобы сопернику было трудно заранее найти две лёгкие победы.</span></div>
+
+      <div class="rule"><b>3. 3 лайка каждый день</b><span>Это бесплатная ежедневная награда. Делай даже если сегодня не пушишь рейтинг.</span></div>
+
+      <div class="rule"><b>4. Последний день важнее обычного</b><span>Если борешься за итоговый ранг, не сливай все хорошие цели заранее. Ближе к финишу каждая выгодная атака ценнее.</span></div>
+
+      <div class="rule"><b>5. Не ломай основной прогресс ради третьей пачки</b><span>3×3 требует глубины ростера, но сначала развивай основной squad. Не размазывай UR shards, gear и ключевые технологии только ради формально равных трёх команд.</span></div>
+
+      <div class="counter">
+        <div class="label">Побед сегодня</div>
+        <div class="counter-row"><input id="arenaWins" type="number" min="0" value="0"><div class="mini"><i id="winsBar"></i></div><div id="winsText" class="muted"></div></div>
+      </div>
+      <div class="counter">
+        <div class="label">Лайков сегодня</div>
+        <div class="counter-row"><input id="arenaLikes" type="number" min="0" max="3" value="0"><div class="mini"><i id="likesBar"></i></div><div id="likesText" class="muted"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 </div>
 <script>
 const KEY='lw_minimal_inventory_v2';
@@ -44,6 +108,28 @@ function render(){
  grid.querySelectorAll('input[data-id]').forEach(inp=>inp.addEventListener('change',()=>{const v=Number(inp.value);if(Number.isFinite(v)&&v>=0){saved[inp.dataset.id]=v;save();render()}}));
 }
 render();
+
+const ARENA_KEY='lw_minimal_inventory_arena_v3';
+let arenaState={wins:0,likes:0};
+try{arenaState=Object.assign(arenaState,JSON.parse(localStorage.getItem(ARENA_KEY)||'{}'))}catch(e){}
+function renderArena(){
+ const wins=document.getElementById('arenaWins'), likes=document.getElementById('arenaLikes');
+ if(!wins||!likes)return;
+ wins.value=arenaState.wins; likes.value=arenaState.likes;
+ const wp=Math.min(100,Math.max(0,arenaState.wins/5*100));
+ const lp=Math.min(100,Math.max(0,arenaState.likes/3*100));
+ document.getElementById('winsBar').style.width=wp+'%';
+ document.getElementById('likesBar').style.width=lp+'%';
+ document.getElementById('winsText').textContent=arenaState.wins>=5?'✓ daily закрыт':'ещё '+Math.max(0,5-arenaState.wins);
+ document.getElementById('likesText').textContent=arenaState.likes>=3?'✓ готово':'ещё '+Math.max(0,3-arenaState.likes);
+ localStorage.setItem(ARENA_KEY,JSON.stringify(arenaState));
+}
+document.addEventListener('change',e=>{
+ if(e.target?.id==='arenaWins'){arenaState.wins=Math.max(0,Number(e.target.value)||0);renderArena()}
+ if(e.target?.id==='arenaLikes'){arenaState.likes=Math.min(3,Math.max(0,Number(e.target.value)||0));renderArena()}
+});
+
+renderArena();
 </script>
 </body>
 </html>
