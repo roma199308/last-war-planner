@@ -158,8 +158,8 @@ a{color:#8dc8ff}
 <section id="inventory" class="section">
   <div class="section-head">
     <div>
-      <h2>Инвентарь → события</h2><span class="tag">Предзаполнено по твоим скриншотам</span>
-      <p>Значения взяты с твоих скриншотов. Меняй число прямо здесь — оно сохраняется в браузере и остаётся до следующего ручного изменения.</p>
+      <h2>Инвентарь → события</h2><span class="tag">Предзаполнено по твоим скриншотам • v6 миграция старых нулей</span>
+      <p>Значения взяты с твоих скриншотов. Эта версия один раз заменит старые нули из предыдущей версии. После этого каждое число сохраняется и меняется только когда ты сам вводишь новое.</p>
     </div>
   </div>
   <div class="panel" style="margin-bottom:14px">
@@ -332,6 +332,42 @@ const inventoryItems = [
  {id:'expCardInv',name:'EXP-карта',sub:'Неидентифицированный EXP предмет',icon:'🟧',value:1,events:['vsd4'],tip:'Вероятно относится к развитию героя; точное название по скрину не подтверждено.'}
 ];
 
+
+const PREFILL_MIGRATION_KEY='lw_prefill_from_screens_v6';
+const SCREENSHOT_INVENTORY_PREFILL={
+  ammoInv:360,
+  amethystInv:7248,
+  crystalOreInv:100,
+  silverBrickInv:10000,
+  valorBadgeInv:22784,
+  courageMedalInv:12400,
+  professionResetInv:3,
+  heroSwapInv:2,
+  seasonMedalInv:40,
+  redDiscInv:7,
+  blueBoxInv:228,
+  blueTubeInv:5170,
+  blueTokenInv:60,
+  yellowTicketInv:70,
+  greenCanisterInv:61,
+  truckTicketInv:67,
+  paperInv:10,
+  goldTrophyInv:1,
+  wrenchInv:9,
+  orangeTubeInv:350,
+  purpleTubeInv:100,
+  expCardInv:1
+};
+function applyScreenshotInventoryPrefillOnce(){
+  if(localStorage.getItem(PREFILL_MIGRATION_KEY)==='1') return;
+  let s={};
+  try{s=JSON.parse(localStorage.getItem('lw_inventory_v1')||'{}')}catch(e){}
+  Object.assign(s,SCREENSHOT_INVENTORY_PREFILL);
+  localStorage.setItem('lw_inventory_v1',JSON.stringify(s));
+  localStorage.setItem(PREFILL_MIGRATION_KEY,'1');
+}
+applyScreenshotInventoryPrefillOnce();
+
 function getInvState(){
   let s={};
   try{s=JSON.parse(localStorage.getItem('lw_inventory_v1')||'{}')}catch(e){}
@@ -448,6 +484,16 @@ const catLabels={all:'Все',daily:'Ежедневные',alliance:'Союз',p
 let state = JSON.parse(localStorage.getItem('lastWarPlannerState')||'{}');
 if(!state.progress)state.progress={};if(!state.heroes)state.heroes=[];if(!state.techDone)state.techDone={};
 const save=()=>localStorage.setItem('lastWarPlannerState',JSON.stringify(state));
+
+const PROGRESS_PREFILL_MIGRATION_KEY='lw_progress_from_screens_v6';
+if(localStorage.getItem(PROGRESS_PREFILL_MIGRATION_KEY)!=='1'){
+  state.progress=state.progress||{};
+  state.progress.ammo={...(state.progress.ammo||{}),current:360,target:700};
+  state.progress.crystal={...(state.progress.crystal||{}),current:7248};
+  localStorage.setItem('lastWarPlannerState',JSON.stringify(state));
+  localStorage.setItem(PROGRESS_PREFILL_MIGRATION_KEY,'1');
+}
+
 // Migration: replace old Ammo Bonanza targets from previous planner versions with the current community-safe target.
 if(state.progress?.ammo && [127,145,156,667].includes(Number(state.progress.ammo.target))){state.progress.ammo.target=700;save();}
 const fmt=n=>new Intl.NumberFormat('ru-RU',{maximumFractionDigits:0}).format(Number(n)||0);
@@ -459,7 +505,7 @@ function eventVisible(e){const active=document.querySelector('#filters .chip.act
 function getProgress(e){const p=state.progress[e.id]||{};return{current:Number(p.current??0),target:Number(p.target??e.track?.target??0)}}
 function trackerHTML(e){if(!e.track)return `<div class="tracker"><div class="remain">Цель не фиксирована: следуй чек-листу события.</div></div>`;const p=getProgress(e);const options=e.track.presets?.map(v=>`<option value="${v}" ${Number(v)===p.target?'selected':''}>${presetText(e,v)}</option>`).join('')||'';return `<div class="tracker"><div class="tracker-label"><span>${e.track.label}</span><span>${Math.round(pct(p.current,p.target))}%</span></div><div class="track-inputs"><input type="number" min="0" data-current="${e.id}" value="${p.current}" aria-label="Текущий запас"><select data-target="${e.id}">${options}</select></div><div class="progress ${e.cat==='hot'?'violet':e.cat==='alliance'?'green':'orange'}"><i style="width:${pct(p.current,p.target)}%"></i></div><div class="remain">Осталось: <strong>${fmt(Math.max(0,p.target-p.current))}</strong> из ${fmt(p.target)}</div><div class="quick-note">Цели в списке — milestone или практические ориентиры из актуальных гайдов/сообщества.</div><div class="event-actions"><button class="mini" data-plus="${e.id}">+1</button><button class="mini" data-reset="${e.id}">Сбросить день</button><button class="mini done" data-done="${e.id}">Событие закончилось</button></div></div>`}
 function renderEvents(){const grid=document.getElementById('eventGrid');grid.innerHTML='';events.filter(eventVisible).forEach(e=>{const d=document.createElement('article');d.className=`event-card ${e.cat==='hot'?'hot':''} ${e.cat==='season'?'season':''}`;d.innerHTML=`<span class="source-dot" title="Есть источник/гайд"></span><div class="event-top"><div class="event-art">${e.icon}</div><div class="event-meta"><div class="event-title">${e.ru}</div><div class="event-en">${e.en}</div><div class="badges"><span class="badge ${e.cat==='hot'?'hot':e.cat==='season'?'season':''}">${catLabels[e.cat]||e.cat}</span><span class="badge">${e.freq}</span></div></div></div><div class="event-body"><div class="rowline"><span>Что копить</span><span>${e.save}</span></div><div class="rowline"><span>Цель</span><span>${e.goal}</span></div><div class="rowline"><span>Когда тратить</span><span>${e.spend}</span></div><div class="rowline"><span>Совет</span><span>${e.tip}</span></div>${trackerHTML(e)}<a href="${SOURCES[e.source]||SOURCES.timeline}" target="_blank" rel="noopener" style="font-size:11px;text-decoration:none">Источник / гайд ↗</a></div>`;grid.appendChild(d)});bindTrackers();}
-function bindTrackers(){document.querySelectorAll('[data-current]').forEach(el=>el.oninput=()=>{const id=el.dataset.current;state.progress[id]=state.progress[id]||{};if(el.value==='')return;state.progress[id].current=Math.max(0,Number(el.value));save();renderEvents();renderQuick();});document.querySelectorAll('[data-target]').forEach(el=>el.onchange=()=>{const id=el.dataset.target;state.progress[id]=state.progress[id]||{};state.progress[id].target=Number(el.value||0);save();renderEvents();renderQuick();});document.querySelectorAll('[data-plus]').forEach(b=>b.onclick=()=>{const e=events.find(x=>x.id===b.dataset.plus);const p=getProgress(e);state.progress[e.id]={...state.progress[e.id],current:p.current+1,target:p.target};save();renderEvents();renderQuick();});document.querySelectorAll('[data-reset]').forEach(b=>b.onclick=()=>{const e=events.find(x=>x.id===b.dataset.reset);const p=getProgress(e);state.progress[e.id]={...state.progress[e.id],current:7248,target:p.target};save();renderEvents();renderQuick();});document.querySelectorAll('[data-done]').forEach(b=>b.onclick=()=>finishEvent(b.dataset.done));}
+function bindTrackers(){document.querySelectorAll('[data-current]').forEach(el=>el.oninput=()=>{const id=el.dataset.current;state.progress[id]=state.progress[id]||{};if(el.value==='')return;state.progress[id].current=Math.max(0,Number(el.value));save();renderEvents();renderQuick();});document.querySelectorAll('[data-target]').forEach(el=>el.onchange=()=>{const id=el.dataset.target;state.progress[id]=state.progress[id]||{};state.progress[id].target=Number(el.value||0);save();renderEvents();renderQuick();});document.querySelectorAll('[data-plus]').forEach(b=>b.onclick=()=>{const e=events.find(x=>x.id===b.dataset.plus);const p=getProgress(e);state.progress[e.id]={...state.progress[e.id],current:p.current+1,target:p.target};save();renderEvents();renderQuick();});document.querySelectorAll('[data-reset]').forEach(b=>b.onclick=()=>{const e=events.find(x=>x.id===b.dataset.reset);const p=getProgress(e);state.progress[e.id]={...state.progress[e.id],current:0,target:p.target};save();renderEvents();renderQuick();});document.querySelectorAll('[data-done]').forEach(b=>b.onclick=()=>finishEvent(b.dataset.done));}
 function finishEvent(id){const e=events.find(x=>x.id===id);const p=getProgress(e);const raw=prompt(`Событие «${e.ru}» завершено. Сколько ресурса/побед осталось?`,String(p.current));if(raw===null)return;const remain=Math.max(0,Number(raw)||0);state.progress[id]={...state.progress[id],current:remain,target:p.target,lastFinished:new Date().toISOString()};save();renderEvents();renderQuick();}
 function renderQuick(){
  const box=document.getElementById('quickStats');box.innerHTML='';
