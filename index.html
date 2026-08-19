@@ -102,6 +102,22 @@ a{color:#8dc8ff}
   .quick-current{width:86px}
   .rowline{grid-template-columns:68px 1fr}
 }
+
+.inventory-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.inv-card{background:linear-gradient(180deg,#0d1d31,#091625);border:1px solid var(--line);border-radius:16px;padding:14px;min-width:0}
+.inv-head{display:flex;gap:10px;align-items:center;margin-bottom:10px}
+.inv-icon{font-size:25px;width:34px;text-align:center}
+.inv-name{font-weight:800;font-size:14px}
+.inv-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.inv-value{display:flex;align-items:center;gap:8px;margin:8px 0 10px}
+.inv-value input{width:120px;max-width:100%;font-size:18px;font-weight:800;background:#071321;color:var(--text);border:1px solid #27517a;border-radius:10px;padding:8px 10px}
+.event-links{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.event-link{font-size:11px;padding:5px 8px;border-radius:999px;background:#102945;border:1px solid #265884;color:#cde6ff;cursor:pointer}
+.inv-tip{font-size:12px;color:#a9bdd4;line-height:1.45;margin-top:8px}
+.inv-status{font-size:11px;color:#6fe79b;margin-top:8px}
+@media(max-width:1050px){.inventory-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){.inventory-grid{grid-template-columns:1fr}.inv-value input{width:100%}}
+
 </style>
 </head>
 <body>
@@ -114,7 +130,7 @@ a{color:#8dc8ff}
 
 <main class="shell">
 <section class="hero">
-  <div class="hero-card" style="grid-column:1/-1"><h2>Планировщик Last War без рандомных целей</h2><p>Цели по ресурсам взяты из актуальных гайдов и подтверждённых механик. Если у события нет фиксированного полезного порога, планировщик не выдумывает число — вместо этого показывает чек-лист, лимит попыток или оставляет цель редактируемой.</p><div class="hero-tags"><span class="tag">Данные сохраняются в браузере</span><span class="tag">Работает на GitHub Pages</span><span class="tag">Без сервера и базы</span><span class="tag">Обновлено 19.08.2026</span></div></div>
+  <div class="hero-card" style="grid-column:1/-1"><h2>Планировщик Last War без рандомных целей</h2><p>Цели по ресурсам взяты из актуальных гайдов и подтверждённых механик. Если у события нет фиксированного полезного порога, планировщик не выдумывает число — вместо этого показывает чек-лист, лимит попыток или оставляет цель редактируемой.</p><div class="hero-tags"><span class="tag">Данные сохраняются в браузере</span><span class="tag">Работает на GitHub Pages</span><span class="tag">Без сервера и базы</span><span class="tag">Обновлено 19.08.2026</span><span class="tag">Аудит: Timeline S1–S6 + Hot Deals + сезонные гайды</span></div></div>
 </section>
 
 <section id="overview" class="section active">
@@ -138,7 +154,44 @@ a{color:#8dc8ff}
   </div>
 </section>
 
+
+<section id="inventory" class="section">
+  <div class="section-head">
+    <div>
+      <h2>Инвентарь → события</h2><span class="tag">Предзаполнено по твоим скриншотам</span>
+      <p>Значения взяты с твоих скриншотов. Меняй число прямо здесь — оно сохраняется в браузере и остаётся до следующего ручного изменения.</p>
+    </div>
+  </div>
+  <div class="panel" style="margin-bottom:14px">
+    <h3>Что видно на скриншотах и когда это использовать</h3>
+    <div class="inventory-grid" id="inventoryGrid"></div>
+  </div>
+  
+  <div class="panel">
+    <h3>Ключевые правила по твоему текущему инвентарю</h3>
+    <div class="plan-list">
+      <div class="plan-step"><span class="num">1</span><div><b>Патроны — 360 / цель 700</b><small>Не тратить вне Ammo Bonanza / Bullseye. До безопасного полного захода осталось 340.</small></div><span class="state">копим</span></div>
+      <div class="plan-step"><span class="num">2</span><div><b>Amethyst — 7 248</b><small>Копим под выбранный порог Crystal Event; Crystal Ore 100 — наоборот, сразу в Crystal Factory.</small></div><span class="state">Crystal</span></div>
+      <div class="plan-step"><span class="num">3</span><div><b>Valor Badge — 22 784</b><small>Держать под исследования и научный день VS, особенно когда двигаешь Special Forces / Alliance Duel.</small></div><span class="state">VS День 3</span></div>
+      <div class="plan-step"><span class="num">4</span><div><b>Courage Medal — 12 400</b><small>Это валюта Zombie Invasion. Не тратить вне магазина/цикла события.</small></div><span class="state">Zombie Invasion</span></div>
+      <div class="plan-step"><span class="num">5</span><div><b>Silver Bricks — 10 000</b><small>Используются в специальных пакетах Bullseye Loot, Сверкающего рынка и Bounty Hunter.</small></div><span class="state">Hot Deals</span></div>
+    </div>
+  </div>
+
+</section>
+
 <section id="events" class="section">
+
+<div class="panel" style="margin-bottom:14px">
+  <h3>Что проверено в полном аудите</h3>
+  <div class="plan-list">
+    <div class="plan-step"><span class="num">✓</span><div><b>Базовая линия сервера</b><small>Daily systems, Arms Race, Alliance Exercise, Desert Storm, Alliance Duel, City/Capitol wars, world bosses, Zombie events.</small></div><span class="state">проверено</span></div>
+    <div class="plan-step"><span class="num">✓</span><div><b>Hot Deals rotation</b><small>Hero Shard Spin/Roulette, Bounty Hunter, Glittering Market, Bullseye + Ammo Bonanza, Total Mobilization, Hero/Drone/Overlord/EW passes, Energy Loot, Moonstone.</small></div><span class="state">проверено</span></div>
+    <div class="plan-step"><span class="num">✓</span><div><b>Season 1–6</b><small>Ключевые сезонные активности и post-season: Hidden Treasure, Supply Collection, Desert Treasure, Alliance Vault, Blood Night, Copper Wars, Wasteland Trade, Console Contest, S6 faction activities, Black Market, Champion's Duel.</small></div><span class="state">проверено</span></div>
+    <div class="plan-step"><span class="num">!</span><div><b>Без выдуманных целей</b><small>Если у события нет универсального числового порога, tracker показывает участие/дневной лимит/бюджет, а не случайную цифру.</small></div><span class="state">правило</span></div>
+  </div>
+</div>
+
   <div class="section-head"><div><h2>Все события и ротации</h2><p>Регулярные, союзные, PvP, Hot Deals и сезонные события. Русские названия + оригинал.</p></div><input id="searchInput" class="search" placeholder="Поиск: 3×3, рынок, зомби..." /></div>
   <div class="filters" id="filters"></div>
   <div class="grid" id="eventGrid"></div>
@@ -252,7 +305,81 @@ const SOURCES = {
   desert:'https://lastwarhandbook.com/guides/desert-storm-battlefield-guide'
 };
 
+
+const inventoryItems = [
+ {id:'ammoInv',name:'Патроны',sub:'Ammo',icon:'🔫',value:360,events:['ammo','bullseye'],tip:'Копить до выбранного полного захода. Текущий безопасный ориентир planner — 700.'},
+ {id:'amethystInv',name:'Аметист',sub:'Amethyst Crystal',icon:'💎',value:7248,events:['crystal'],tip:'Копить под выбранную цель Crystal Event; не путать с Crystal Ore.'},
+ {id:'crystalOreInv',name:'Кристальная руда',sub:'Crystal Ore',icon:'🪨',value:100,events:['crystal'],tip:'Не копить: сразу вкладывать в Crystal Factory.'},
+ {id:'dronePartsInv',name:'Детали дрона',sub:'Drone Parts',icon:'🚁',value:228,events:['arms','vsd1'],tip:'Использовать тогда, когда действие совпадает с Drone Boost / нужным днём VS.'},
+ {id:'silverBrickInv',name:'Серебряные слитки',sub:'Silver Bricks',icon:'⬜',value:10000,events:['bullseye','glitter','bounty'],tip:'Используются только в специальных Silver Brick packs этих Hot Deals.'},
+ {id:'valorBadgeInv',name:'Valor Badge',sub:'Медали доблести',icon:'⭐',value:22784,events:['vsd3', 'vs'],tip:'Копить для исследований Alliance Duel / Special Forces и расходовать в научное окно VS.'},
+ {id:'courageMedalInv',name:'Courage Medal',sub:'Медали Zombie Invasion',icon:'🏅',value:12400,events:['zinvasion'],tip:'Валюта Zombie Invasion. Не тратить вне магазина/цикла события.'},
+ {id:'professionResetInv',name:'Сброс навыков профессии',sub:'Profession Skill Reset',icon:'📘',value:3,events:[],tip:'Редкий сервисный предмет. Не относится к накопительному событию; держать до реальной смены билда профессии.'},
+ {id:'heroSwapInv',name:'Обмен уровня героя',sub:'Hero Level Swap',icon:'🧑‍✈️',value:2,events:['heroReturn'],tip:'Использовать только когда реально перестраиваешь основной состав; не расходовать ради мелкой оптимизации.'},
+ {id:'seasonMedalInv',name:'Season Merit Medal',sub:'Сезонные медали',icon:'🔷',value:40,events:['seasonBoost'],tip:'Сезонная валюта/ресурс. Держать до нужного сезонного обмена/усиления.'},
+ {id:'redDiscInv',name:'Красный диск',sub:'Неидентифицированный предмет',icon:'🔴',value:7,events:[],tip:'Название по иконке не подтверждено. Значение сохранено; связь с событием добавим после точного определения.'},
+ {id:'blueBoxInv',name:'Синяя коробка',sub:'Неидентифицированный предмет',icon:'🧰',value:228,events:[],tip:'Название по иконке не подтверждено. Значение сохранено; связь с событием добавим после точного определения.'},
+ {id:'blueTubeInv',name:'Голубая трубка',sub:'Неидентифицированный предмет',icon:'🧪',value:5170,events:[],tip:'Название по иконке не подтверждено. Значение сохранено; связь с событием добавим после точного определения.'},
+ {id:'blueTokenInv',name:'Голубой жетон',sub:'Неидентифицированный предмет',icon:'🔵',value:60,events:[],tip:'Название по иконке не подтверждено. Значение сохранено; связь с событием добавим после точного определения.'},
+ {id:'yellowTicketInv',name:'Жёлтый билет',sub:'Неидентифицированный предмет',icon:'🎫',value:70,events:[],tip:'Название по иконке не подтверждено. Значение сохранено; связь с событием добавим после точного определения.'},
+ {id:'greenCanisterInv',name:'Зелёный баллон',sub:'Неидентифицированный предмет',icon:'🧯',value:61,events:[],tip:'Название по иконке не подтверждено. Значение сохранено; связь с событием добавим после точного определения.'},
+ {id:'truckTicketInv',name:'Билет с грузовиком',sub:'Неидентифицированный предмет',icon:'🚚',value:67,events:[],tip:'Название по иконке не подтверждено. Значение сохранено; связь с событием добавим после точного определения.'},
+ {id:'paperInv',name:'Лист с отметками',sub:'Неидентифицированный предмет',icon:'📄',value:10,events:[],tip:'Название по иконке не подтверждено. Значение сохранено; связь с событием добавим после точного определения.'},
+ {id:'goldTrophyInv',name:'Золотой кубок',sub:'Неидентифицированный предмет',icon:'🏆',value:1,events:[],tip:'Название по иконке не подтверждено. Значение сохранено; связь с событием добавим после точного определения.'},
+ {id:'wrenchInv',name:'Гаечный ключ',sub:'Неидентифицированный предмет',icon:'🔧',value:9,events:[],tip:'Название по иконке не подтверждено. Значение сохранено; связь с событием добавим после точного определения.'},
+ {id:'orangeTubeInv',name:'Оранжевая колба',sub:'Неидентифицированный предмет',icon:'🧪',value:350,events:[],tip:'Название по иконке не подтверждено. Значение сохранено; связь с событием добавим после точного определения.'},
+ {id:'purpleTubeInv',name:'Фиолетовая колба',sub:'Неидентифицированный предмет',icon:'🧪',value:100,events:[],tip:'Название по иконке не подтверждено. Значение сохранено; связь с событием добавим после точного определения.'},
+ {id:'expCardInv',name:'EXP-карта',sub:'Неидентифицированный EXP предмет',icon:'🟧',value:1,events:['vsd4'],tip:'Вероятно относится к развитию героя; точное название по скрину не подтверждено.'}
+];
+
+function getInvState(){
+  let s={};
+  try{s=JSON.parse(localStorage.getItem('lw_inventory_v1')||'{}')}catch(e){}
+  inventoryItems.forEach(i=>{if(s[i.id]===undefined)s[i.id]=i.value});
+  return s;
+}
+let invState=getInvState();
+function saveInv(){localStorage.setItem('lw_inventory_v1',JSON.stringify(invState))}
+function jumpEvent(id){
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  const evbtn=[...document.querySelectorAll('.nav-btn')].find(b=>b.dataset.target==='events');
+  if(evbtn)evbtn.classList.add('active');
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  const sec=document.getElementById('events'); if(sec)sec.classList.add('active');
+  const search=document.getElementById('searchInput');
+  const e=events.find(x=>x.id===id);
+  if(search&&e){search.value=e.ru;renderEvents();setTimeout(()=>sec.scrollIntoView({behavior:'smooth'}),50)}
+}
+function renderInventory(){
+  const box=document.getElementById('inventoryGrid'); if(!box)return;
+  box.innerHTML='';
+  inventoryItems.forEach(i=>{
+    const div=document.createElement('div'); div.className='inv-card';
+    const links=i.events.map(eid=>{
+      const e=events.find(x=>x.id===eid);
+      return e?`<button class="event-link" data-event="${eid}">${e.ru}</button>`:'';
+    }).join('');
+    div.innerHTML=`<div class="inv-head"><div class="inv-icon">${i.icon}</div><div><div class="inv-name">${i.name}</div><div class="inv-sub">${i.sub}</div></div></div>
+      <div class="inv-value"><input inputmode="numeric" value="${invState[i.id]}" data-inv="${i.id}" aria-label="${i.name}"></div>
+      <div class="event-links">${links}</div><div class="inv-tip">${i.tip}</div><div class="inv-status">✓ сохраняется автоматически</div>`;
+    box.appendChild(div);
+  });
+  box.querySelectorAll('[data-inv]').forEach(inp=>{
+    inp.addEventListener('change',()=>{
+      const v=Number(String(inp.value).replace(/\s/g,''));
+      if(Number.isFinite(v)&&v>=0){invState[inp.dataset.inv]=v;saveInv();renderInventory()}
+    });
+  });
+  box.querySelectorAll('[data-event]').forEach(b=>b.onclick=()=>jumpEvent(b.dataset.event));
+}
+
 const events = [
+{id:'vsd1',ru:'VS День 1 — Подготовка радара',en:'Alliance Duel Day 1 — Radar Training',icon:'📡',cat:'alliance',freq:'Понедельник',save:'Радарные задания + stamina + drone training действия',goal:'Копить радары до понедельника и закрывать личные сундуки',spend:'В День 1 VS',tip:'Не забирай накопленные радары заранее. Совмещай с подходящей фазой Arms Race.',track:{type:'number',label:'Радарные задания',target:30,presets:[20,25,30,35],presetLabels:{20:'20 — малый запас',25:'25 — хороший запас',30:'30 — сильный старт',35:'35 — большой запас'}},source:'vs'},
+{id:'vsd2',ru:'VS День 2 — Расширение базы',en:'Alliance Duel Day 2 — Base Expansion',icon:'🏗️',cat:'alliance',freq:'Вторник',save:'Стройки + строительные ускорения',goal:'Готовые стройки и ускорения тратить во вторник',spend:'В День 2 VS + City Building Arms Race',tip:'Синхронизируй завершения зданий с фазой строительства Arms Race.',track:{type:'number',label:'Дней ускорений стройки',target:20,presets:[10,20,30],presetLabels:{10:'10д — минимум',20:'20д — хороший запас',30:'30д — сильный пуш'}},source:'vs'},
+{id:'vsd3',ru:'VS День 3 — Эпоха науки',en:'Alliance Duel Day 3 — Age of Science',icon:'🧪',cat:'alliance',freq:'Среда',save:'Research speedups + Valor Badges + сундуки компонентов дрона',goal:'Открывать Drone Component Chests только в этот день',spend:'В День 3 VS',tip:'Твои сундуки сейчас: Lv3 ×4, Lv2 ×2, Lv1 ×21 — держать до этого дня.',track:{type:'number',label:'Сундуки компонентов всего',target:27,presets:[27],presetLabels:{27:'27 — твой текущий запас'}},source:'vs'},
+{id:'vsd4',ru:'VS День 4 — Герои',en:'Alliance Duel Day 4 — Hero Advancement',icon:'🦸',cat:'alliance',freq:'Четверг',save:'Hero EXP + UR shards + Skill Medals + Recruitment Tickets',goal:'Копить между Hero Days и сливать пакетом',spend:'В День 4 VS',tip:'Legendary Recruitment Tickets и Hero EXP также можно синхронизировать с Hero Advancement Arms Race.',track:{type:'number',label:'Legendary Recruitment Tickets',target:100,presets:[50,100,200],presetLabels:{50:'50 — небольшой заход',100:'100 — хороший пакет',200:'200 — большой пуш'}},source:'vs'},
+{id:'vsd5',ru:'VS День 5 — Полная мобилизация',en:'Alliance Duel Day 5 — Total Mobilization',icon:'🎖️',cat:'alliance',freq:'Пятница',save:'Training speedups + повышение войск + стройка при совпадении',goal:'Тренировать/повышать войска только в окно очков',spend:'В День 5 VS',tip:'Не сливай training speedups в другие дни без срочной необходимости.',track:{type:'number',label:'Дней training speedups',target:15,presets:[7,15,30],presetLabels:{7:'7д — минимум',15:'15д — хороший запас',30:'30д — сильный пуш'}},source:'vs'},
+{id:'vsd6',ru:'VS День 6 — Уничтожение врага',en:'Alliance Duel Day 6 — Enemy Buster',icon:'⚔️',cat:'alliance',freq:'Суббота',save:'Войска + лечение + щиты',goal:'Набирать очки только безопасными PvP действиями',spend:'В День 6 VS',tip:'Главная цель — очки без бессмысленных потерь; щит важнее лишней рискованной атаки.',track:{type:'number',label:'Личные сундуки',target:9,presets:[3,6,9],presetLabels:{3:'3 — минимум',6:'6 — хороший день',9:'9 — полный комплект'}},source:'vs'},
 {id:'vs',ru:'Военное соревнование',en:'Alliance Duel / VS',icon:'🛡️',cat:'alliance',freq:'Пн–Сб, еженедельно',save:'Радар, ускорения стройки/исследований/тренировки, UR-осколки, EXP, skill medals, drone/component chests',goal:'9 личных сундуков = 7.2M очков в день (если открыты Super Rewards)',spend:'Только в тематический день; совмещать с Arms Race',tip:'После 7.2M не переливай ресурсы без причины — дальше только ради победы союза/рейтинга.',track:{type:'number',label:'Очки сегодня',target:7200000,presets:[540000,2300000,7200000]},source:'timeline'},
 {id:'arms',ru:'Гонка вооружений',en:'Arms Race',icon:'🪖',cat:'daily',freq:'Ежедневно, 6 фаз',save:'Ускорения и действия под конкретную фазу',goal:'3 сундука активной фазы; максимум 36 очков за 6 слотов',spend:'Только внутри совпадающей фазы',tip:'Если доступен slot swap: сначала закрой 3 сундука текущей фазы, затем перенеси неудобный будущий слот.',track:{type:'number',label:'Сундуки фазы',target:3,presets:[1,2,3]},source:'arms'},
 {id:'crystal',ru:'Кристальное событие',en:'Crystal Event',icon:'💎',cat:'periodic',freq:'60 дней после открытия',save:'Crystal Ore НЕ копить; Amethyst — по твоим целям',goal:'Фабрика как можно выше + 3/3 босса ежедневно',spend:'Ore сразу в Crystal Factory',tip:'На Crystal Boss используй все 3 бесплатные попытки. Контр типов не работает; 5 героев одного типа дают бонус.',track:{type:'number',label:'Атаки босса сегодня',target:3,presets:[3]},source:'crystal'},
@@ -301,7 +428,20 @@ const events = [
 {id:'wasteland',ru:'Торговля пустошей',en:'Wasteland Trade',icon:'🚆',cat:'season',freq:'S5',save:'CrystalGold / seasonal trade resources',goal:'Оптимизировать маршрут/станции',spend:'По окнам S5 trade',tip:'Сезонная экономика; цели зависят от станции и текущего состояния сервера.',source:'timeline'},
 {id:'console',ru:'Конкурс консолей',en:'Console Contest',icon:'🕹️',cat:'season',freq:'S6 / off-season mechanics',save:'Попытки mini-game',goal:'Ranking по конкретной машине',spend:'В окне mini-game',tip:'Четыре mini-games имеют разные scoring rules; отдельный рейтинг по каждой машине.',source:'timeline'},
 {id:'globalexp',ru:'Глобальная экспедиция',en:'Global Expedition',icon:'🌍',cat:'season',freq:'S6, 3 раунда',save:'Awakening resources',goal:'Получать Awakening Shards для Kim → DVA → Tesla',spend:'По раундам S6',tip:'Таймлайн отмечает раунды примерно на днях 4, 18 и 32 сезона.',source:'timeline'},
-{id:'awakenSwap',ru:'Обмен пробуждения',en:'Awakening Swap',icon:'🔄',cat:'season',freq:'S6, поздняя фаза',save:'Awakening progress',goal:'Перенести звёзды между awakened героями только если это улучшает main squad',spend:'В окно Swap',tip:'Не делать swap ради «ровных» героев — цель усилить основную пачку.',source:'timeline'}
+{id:'awakenSwap',ru:'Обмен пробуждения',en:'Awakening Swap',icon:'🔄',cat:'season',freq:'S6, поздняя фаза',save:'Awakening progress',goal:'Перенести звёзды между awakened героями только если это улучшает main squad',spend:'В окно Swap',tip:'Не делать swap ради «ровных» героев — цель усилить основную пачку.',source:'timeline'},
+
+{id:'s1hidden',ru:'Скрытые сокровища',en:'Hidden Treasure — Season 1',icon:'🗺️',cat:'season',freq:'Season 1',save:'Попытки раскопок / сезонные награды',goal:'Не пропускать ежедневные раскопки и забирать Hero Choice Chests',spend:'В течение S1',tip:'В S1 состав Hero Choice Chests расширяется сезонными героями. Цель — ежедневное участие, а не случайный запас.',track:{type:'number',label:'Раскопки за день',target:1,presets:[1],presetLabels:{1:'1 — ежедневная раскопка'}},source:'timeline'},
+{id:'s2supply',ru:'Сбор припасов',en:'Scattered Supplies — Season 2',icon:'🧰',cat:'season',freq:'Весь Season 2',save:'Тепло/доступ к открытым припасам',goal:'Собирать максимум 5 припасов в день',spend:'Ежедневно в S2',tip:'Подтверждённый дневной лимит — 5 Scattered Supplies. Приоритет — золотые сундуки ради Weapon Shards.',track:{type:'number',label:'Припасы сегодня',target:5,presets:[5],presetLabels:{5:'5 — дневной максимум'}},source:'timeline'},
+{id:'champduel',ru:'Дуэль чемпионов — сезонное празднование',en:"Champion's Duel",icon:'🏆',cat:'season',freq:'После сезона вместе с Black Market',save:'Black Market Cash для прогнозов',goal:'Делать до 5 прогнозов в день и держать до 500 Black Market Cash',spend:'Во время плей-офф',tip:'Ставки возвращаются даже при проигрыше; при победе выплата умножается. Держи 500 Cash, чтобы не пропускать 5 прогнозов.',track:{type:'number',label:'Black Market Cash резерв',target:500,presets:[500],presetLabels:{500:'500 — резерв на 5 прогнозов'}},source:'black'},
+{id:'s4cat',ru:'Счастливый кот',en:'Lucky Cat / Maneki-neko — Season 4',icon:'🐱',cat:'season',freq:'Ежедневно в S4',save:'Освещённые зоны / электрик',goal:'Малого кота находить 1 раз в день; крупных забирать по возможности',spend:'Ежедневно',tip:'Small Lucky Cat можно открыть один раз в день и он живёт ограниченное время. Large Lucky Cat появляется в освещённых зонах.',track:{type:'number',label:'Малый кот сегодня',target:1,presets:[1],presetLabels:{1:'1 — дневной максимум малого кота'}},source:'timeline'},
+{id:'s4copper',ru:'Медные войны',en:'Copper Wars — Season 4',icon:'🟠',cat:'season',freq:'Ср/Сб, недели 4–7 S4',save:'Войска + лечение + координация фракции',goal:'8 боёв за сезон — не пропускать боевые окна',spend:'Среда и суббота',tip:'В S4 проходит 2 боя в неделю на неделях 4–7: всего 8. Важнее командный захват Alliance Center, чем личные убийства.',track:{type:'number',label:'Бои сыграны',target:8,presets:[2,4,6,8],presetLabels:{2:'2 — одна неделя',4:'4 — две недели',6:'6 — три недели',8:'8 — весь цикл'}},source:'timeline'},
+{id:'s4warseve',ru:'Канун войны',en:"War's Eve — Season 4",icon:'🌙',cat:'season',freq:'Неделя 7 S4',save:'Ежедневный вход + Blood Night Hunter ресурсы',goal:'Забирать ежедневные Lucky Charm и использовать усиленное окно Blood Night',spend:'Неделя 7',tip:'Если играешь Blood Night Hunter — это окно для пуша: меньше cooldown, выше запас Magatama Life Points и усилен Blood Blade.',track:{type:'number',label:'Дни входа',target:7,presets:[1,3,7],presetLabels:{1:'1 — участие',3:'3 — часть недели',7:'7 — вся неделя'}},source:'timeline'},
+{id:'s4faction',ru:'Дуэль фракций',en:'Faction Duel — Season 4',icon:'⚔️',cat:'season',freq:'Неделя 7 S4',save:'Войска, телепорты, лечение',goal:'6 дней конкурса + финальная битва в воскресенье',spend:'Неделя 7',tip:'Пн–Сб набираются очки права вторжения, в воскресенье — Capitol battle. Не оценивай событие только по личному PvP.',track:{type:'number',label:'Дни конкурса',target:6,presets:[3,6],presetLabels:{3:'3 — половина',6:'6 — полный конкурс'}},source:'timeline'},
+{id:'s6fishing',ru:'Рыболовные угодья',en:'Fishing Grounds — Season 6',icon:'🎣',cat:'season',freq:'Season 6',save:'Доступ фракции к Fishing Grounds',goal:'Рыбачить и сдавать улов ради War Merit',spend:'По мере открытия угодий',tip:'Более высокий уровень угодий даёт лучший улов. Сдача рыбы приносит War Merit.',track:{type:'number',label:'Рыбалки / сдачи',target:5,presets:[1,3,5,10],presetLabels:{1:'1 — участие',3:'3 — обычный день',5:'5 — активный день',10:'10 — пуш'}},source:'timeline'},
+{id:'s6sanctuary',ru:'Захват святилищ',en:'Sanctuary Conquest — Season 6',icon:'⛩️',cat:'season',freq:'Season 6',save:'Войска и фракционная координация',goal:'Участвовать в доступных окнах захвата',spend:'По расписанию сезона',tip:'Фракционная механика: ценность — в удержании территории и совместном прогрессе, а не в личных киллах.',track:{type:'number',label:'Участия',target:1,presets:[1],presetLabels:{1:'1 — не пропустить окно'}},source:'timeline'},
+{id:'s6altar',ru:'Захват алтаря',en:'Altar Conquest — Season 6',icon:'🗿',cat:'season',freq:'Season 6',save:'Войска, лечение, координация',goal:'Не пропускать ключевые бои за Altar',spend:'По расписанию сезона',tip:'Это фракционный objective-бой; распределяй сильные пачки по задачам союза/фракции.',track:{type:'number',label:'Участия',target:1,presets:[1],presetLabels:{1:'1 — участие в окне'}},source:'timeline'},
+{id:'s6outpost',ru:'Захват аванпостов',en:'Outpost Conquest — Season 6',icon:'🏕️',cat:'season',freq:'Season 6',save:'Войска и телепорты',goal:'Захватывать/удерживать Outposts по плану фракции',spend:'Во время военных окон',tip:'Не распыляй марши самостоятельно: приоритет — назначенный аванпост и коллективный контроль.',track:{type:'number',label:'Участия',target:1,presets:[1],presetLabels:{1:'1 — выполнить назначение'}},source:'timeline'},
+{id:'s6factionduel',ru:'Финальная дуэль фракций',en:'Faction Duel — Season 6',icon:'🛡️',cat:'season',freq:'Финал S6',save:'Войска + лечение + War Merit план',goal:'Финальный фракционный бой',spend:'В финальную неделю',tip:'Это кульминация S6; накопленные сезонные усиления и территориальный прогресс важнее локальной силы одного игрока.',track:{type:'number',label:'Готовность',target:100,presets:[50,75,100],presetLabels:{50:'50% — базовая',75:'75% — хорошая',100:'100% — готов'}},source:'timeline'}
 ];
 
 const catLabels={all:'Все',daily:'Ежедневные',alliance:'Союз',pvp:'PvP',hot:'Hot Deals',periodic:'Периодические',season:'Сезонные',early:'Ранний сервер'};
@@ -319,7 +459,7 @@ function eventVisible(e){const active=document.querySelector('#filters .chip.act
 function getProgress(e){const p=state.progress[e.id]||{};return{current:Number(p.current??0),target:Number(p.target??e.track?.target??0)}}
 function trackerHTML(e){if(!e.track)return `<div class="tracker"><div class="remain">Цель не фиксирована: следуй чек-листу события.</div></div>`;const p=getProgress(e);const options=e.track.presets?.map(v=>`<option value="${v}" ${Number(v)===p.target?'selected':''}>${presetText(e,v)}</option>`).join('')||'';return `<div class="tracker"><div class="tracker-label"><span>${e.track.label}</span><span>${Math.round(pct(p.current,p.target))}%</span></div><div class="track-inputs"><input type="number" min="0" data-current="${e.id}" value="${p.current}" aria-label="Текущий запас"><select data-target="${e.id}">${options}</select></div><div class="progress ${e.cat==='hot'?'violet':e.cat==='alliance'?'green':'orange'}"><i style="width:${pct(p.current,p.target)}%"></i></div><div class="remain">Осталось: <strong>${fmt(Math.max(0,p.target-p.current))}</strong> из ${fmt(p.target)}</div><div class="quick-note">Цели в списке — milestone или практические ориентиры из актуальных гайдов/сообщества.</div><div class="event-actions"><button class="mini" data-plus="${e.id}">+1</button><button class="mini" data-reset="${e.id}">Сбросить день</button><button class="mini done" data-done="${e.id}">Событие закончилось</button></div></div>`}
 function renderEvents(){const grid=document.getElementById('eventGrid');grid.innerHTML='';events.filter(eventVisible).forEach(e=>{const d=document.createElement('article');d.className=`event-card ${e.cat==='hot'?'hot':''} ${e.cat==='season'?'season':''}`;d.innerHTML=`<span class="source-dot" title="Есть источник/гайд"></span><div class="event-top"><div class="event-art">${e.icon}</div><div class="event-meta"><div class="event-title">${e.ru}</div><div class="event-en">${e.en}</div><div class="badges"><span class="badge ${e.cat==='hot'?'hot':e.cat==='season'?'season':''}">${catLabels[e.cat]||e.cat}</span><span class="badge">${e.freq}</span></div></div></div><div class="event-body"><div class="rowline"><span>Что копить</span><span>${e.save}</span></div><div class="rowline"><span>Цель</span><span>${e.goal}</span></div><div class="rowline"><span>Когда тратить</span><span>${e.spend}</span></div><div class="rowline"><span>Совет</span><span>${e.tip}</span></div>${trackerHTML(e)}<a href="${SOURCES[e.source]||SOURCES.timeline}" target="_blank" rel="noopener" style="font-size:11px;text-decoration:none">Источник / гайд ↗</a></div>`;grid.appendChild(d)});bindTrackers();}
-function bindTrackers(){document.querySelectorAll('[data-current]').forEach(el=>el.oninput=()=>{const id=el.dataset.current;state.progress[id]=state.progress[id]||{};if(el.value==='')return;state.progress[id].current=Math.max(0,Number(el.value));save();renderEvents();renderQuick();});document.querySelectorAll('[data-target]').forEach(el=>el.onchange=()=>{const id=el.dataset.target;state.progress[id]=state.progress[id]||{};state.progress[id].target=Number(el.value||0);save();renderEvents();renderQuick();});document.querySelectorAll('[data-plus]').forEach(b=>b.onclick=()=>{const e=events.find(x=>x.id===b.dataset.plus);const p=getProgress(e);state.progress[e.id]={...state.progress[e.id],current:p.current+1,target:p.target};save();renderEvents();renderQuick();});document.querySelectorAll('[data-reset]').forEach(b=>b.onclick=()=>{const e=events.find(x=>x.id===b.dataset.reset);const p=getProgress(e);state.progress[e.id]={...state.progress[e.id],current:0,target:p.target};save();renderEvents();renderQuick();});document.querySelectorAll('[data-done]').forEach(b=>b.onclick=()=>finishEvent(b.dataset.done));}
+function bindTrackers(){document.querySelectorAll('[data-current]').forEach(el=>el.oninput=()=>{const id=el.dataset.current;state.progress[id]=state.progress[id]||{};if(el.value==='')return;state.progress[id].current=Math.max(0,Number(el.value));save();renderEvents();renderQuick();});document.querySelectorAll('[data-target]').forEach(el=>el.onchange=()=>{const id=el.dataset.target;state.progress[id]=state.progress[id]||{};state.progress[id].target=Number(el.value||0);save();renderEvents();renderQuick();});document.querySelectorAll('[data-plus]').forEach(b=>b.onclick=()=>{const e=events.find(x=>x.id===b.dataset.plus);const p=getProgress(e);state.progress[e.id]={...state.progress[e.id],current:p.current+1,target:p.target};save();renderEvents();renderQuick();});document.querySelectorAll('[data-reset]').forEach(b=>b.onclick=()=>{const e=events.find(x=>x.id===b.dataset.reset);const p=getProgress(e);state.progress[e.id]={...state.progress[e.id],current:7248,target:p.target};save();renderEvents();renderQuick();});document.querySelectorAll('[data-done]').forEach(b=>b.onclick=()=>finishEvent(b.dataset.done));}
 function finishEvent(id){const e=events.find(x=>x.id===id);const p=getProgress(e);const raw=prompt(`Событие «${e.ru}» завершено. Сколько ресурса/побед осталось?`,String(p.current));if(raw===null)return;const remain=Math.max(0,Number(raw)||0);state.progress[id]={...state.progress[id],current:remain,target:p.target,lastFinished:new Date().toISOString()};save();renderEvents();renderQuick();}
 function renderQuick(){
  const box=document.getElementById('quickStats');box.innerHTML='';
@@ -394,7 +534,8 @@ document.getElementById('searchInput').addEventListener('input',renderEvents);
 
 // Export/import
 
-renderFilters();renderQuick();renderEvents();renderTech();renderHeroes();renderArena();
+renderFilters();
+renderInventory();renderQuick();renderEvents();renderTech();renderHeroes();renderArena();
 </script>
 </body>
 </html>
